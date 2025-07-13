@@ -2,7 +2,7 @@
 
 **Date**: July 12, 2025  
 **Repository**: https://github.com/felixboehm/vibetunnel  
-**Server**: 91.99.172.64 (Hetzner Cloud ARM cax21)
+**Server**: <YOUR_SERVER_IP> (Hetzner Cloud ARM cax21)
 
 ## 🎯 Project Objective
 
@@ -122,9 +122,9 @@ Successfully adapt and deploy VibeTunnel (originally macOS-only) as a standalone
 ## 🔧 Access Information
 
 ### Server Details
-- **IP Address**: 91.99.172.64
-- **SSH Access**: `ssh root@91.99.172.64`
-- **Web Interface**: http://91.99.172.64:4020
+- **IP Address**: <YOUR_SERVER_IP>
+- **SSH Access**: `ssh root@<YOUR_SERVER_IP>`
+- **Web Interface**: http://<YOUR_SERVER_IP>:4020
 - **Authentication**: System user credentials
 
 ### Service Management
@@ -264,8 +264,8 @@ vibetunnel/
 
 ### Server Management
 - [Hetzner Cloud Console](https://console.hetzner.cloud/)
-- [Server IP: 91.99.172.64](http://91.99.172.64:4020)
-- SSH: `ssh root@91.99.172.64`
+- [Server IP: <YOUR_SERVER_IP>](http://<YOUR_SERVER_IP>:4020)
+- SSH: `ssh root@<YOUR_SERVER_IP>`
 
 ### Cost Information
 - **Monthly Server Cost**: €6.19 (cax21 ARM instance)

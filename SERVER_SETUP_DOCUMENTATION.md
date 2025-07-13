@@ -1,6 +1,6 @@
 # VibeTunnel Server Setup Documentation
 
-**Server**: 91.99.172.64 (Hetzner Cloud ARM cax21)  
+**Server**: <YOUR_SERVER_IP> (Hetzner Cloud ARM cax21)  
 **Deployment Date**: July 12, 2025  
 **Status**: ✅ OPERATIONAL
 
@@ -62,6 +62,7 @@ To                         Action      From
 ### User Management
 - **Root Access**: SSH key authentication
 - **VibeTunnel User**: `vibetunnel:vibetunnel`
+- **Groups**: `vibetunnel`, `shadow` (required for PAM authentication)
 - **Home Directory**: `/home/vibetunnel`
 - **Shell**: `/bin/bash`
 
@@ -150,10 +151,10 @@ nohup sudo -u vibetunnel node dist/vibetunnel-linux > /var/log/vibetunnel.log 2>
 ## 🌐 **Network Configuration**
 
 ### Access Information
-- **Server IP**: 91.99.172.64
+- **Server IP**: <YOUR_SERVER_IP>
 - **SSH Port**: 22
 - **VibeTunnel Port**: 4020
-- **Web Interface**: http://91.99.172.64:4020
+- **Web Interface**: http://<YOUR_SERVER_IP>:4020
 
 ### DNS & SSL
 - **Status**: HTTP only (no SSL configured)
@@ -253,6 +254,22 @@ sudo ufw status
 
 # Check port binding
 netstat -tulpn | grep :4020
+```
+
+#### Authentication Failures
+```bash
+# Check if user is in shadow group (REQUIRED for PAM auth)
+groups vibetunnel
+# Should show: vibetunnel : vibetunnel shadow
+
+# If not in shadow group, add it:
+sudo usermod -a -G shadow vibetunnel
+sudo systemctl restart vibetunnel
+
+# Test authentication
+curl -X POST http://localhost:4020/api/auth/password \
+  -H "Content-Type: application/json" \
+  -d '{"userId": "testuser", "password": "yourpassword"}'
 ```
 
 #### SSH Connection Issues

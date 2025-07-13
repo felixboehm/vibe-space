@@ -1,3 +1,7 @@
 .claude/settings.local.json
 
 vibetunnel
+
+# Test credentials - DO NOT COMMIT
+test-credentials.txt
+.test-credentials

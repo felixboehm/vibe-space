@@ -4,8 +4,8 @@
 **Duration**: ~3 hours  
 **Status**: ✅ **COMPLETED SUCCESSFULLY**  
 **Repository**: https://github.com/felixboehm/vibetunnel  
-**Server**: 91.99.172.64 (Hetzner Cloud ARM cax21)  
-**Access URL**: http://91.99.172.64:4020
+**Server**: <YOUR_SERVER_IP> (Hetzner Cloud ARM cax21)  
+**Access URL**: http://<YOUR_SERVER_IP>:4020
 
 ---
 
@@ -172,10 +172,10 @@ Web Assets:
 ### Connection Information
 ```bash
 # SSH Access
-ssh root@91.99.172.64
+ssh root@<YOUR_SERVER_IP>
 
 # Web Interface
-http://91.99.172.64:4020
+http://<YOUR_SERVER_IP>:4020
 
 # Authentication
 # Use system user credentials (root/user accounts)
@@ -363,9 +363,9 @@ Hetzner cax21: €6.19/month (4vCPU, 8GB) ⭐ BEST VALUE
 
 ### Server Management
 - **Hetzner Console**: https://console.hetzner.cloud/
-- **Server IP**: 91.99.172.64
-- **Web Interface**: http://91.99.172.64:4020
-- **SSH Access**: `ssh root@91.99.172.64`
+- **Server IP**: <YOUR_SERVER_IP>
+- **Web Interface**: http://<YOUR_SERVER_IP>:4020
+- **SSH Access**: `ssh root@<YOUR_SERVER_IP>`
 
 ### Development Resources
 - **Local Repository**: `/Users/felix/work/coding-workspace/vibetunnel/`

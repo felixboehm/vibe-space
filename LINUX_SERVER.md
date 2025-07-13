@@ -54,6 +54,10 @@ npm run build
 # Install as system service
 sudo cp dist/vibetunnel-cli /usr/local/bin/vibetunnel
 sudo chmod +x /usr/local/bin/vibetunnel
+
+# Create vibetunnel user and add to shadow group for PAM auth
+sudo useradd -r -s /bin/false vibetunnel
+sudo usermod -a -G shadow vibetunnel
 ```
 
 ### Start the Server
@@ -175,6 +179,13 @@ VibeTunnel supports multiple authentication modes:
 - All system users can login with their passwords
 - Multi-user support enabled by default
 
+**Important**: The VibeTunnel service user must be in the `shadow` group for PAM authentication to work:
+```bash
+# Add vibetunnel user to shadow group (required for multi-user auth)
+sudo usermod -a -G shadow vibetunnel
+sudo systemctl restart vibetunnel
+```
+
 ### 2. SSH Key Authentication
 Start server with SSH key support:
 ```bash
@@ -186,8 +197,8 @@ systemctl daemon-reload && systemctl restart vibetunnel
 ### 3. Environment Variable Override
 For simple deployments, set these environment variables:
 ```bash
-VIBETUNNEL_USERNAME=myuser
-VIBETUNNEL_PASSWORD=mypassword
+VIBETUNNEL_USERNAME=<YOUR_USERNAME>
+VIBETUNNEL_PASSWORD=<YOUR_PASSWORD>
 ```
 **Note**: This disables multi-user PAM authentication and only allows the specified user.
 
