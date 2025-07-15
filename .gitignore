@@ -5,3 +5,6 @@ vibetunnel
 # Test credentials - DO NOT COMMIT
 test-credentials.txt
 .test-credentials
+
+# Vibe Agents repository
+vibe-agents/
