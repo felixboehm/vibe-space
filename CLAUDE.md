@@ -9,6 +9,7 @@ This is a **documentation workspace** for the VibeTunnel Linux deployment projec
 - Deployment guides and server configuration
 - Technical learnings and TODO lists
 - One custom script: `vt-linux` (VibeTunnel CLI wrapper)
+- **Vibe Agents**: AI agent templates and project setup framework (in `vibe-agents/` directory)
 
 ## Key Information
 
@@ -193,3 +194,28 @@ vibetunnel/web/
 ├── test/                   # Test files
 └── dist/                   # Built binaries
 ```
+
+## Vibe Agents Framework
+
+The `vibe-agents/` directory contains templates and standards for working with AI agents in projects. This framework provides:
+
+### Purpose
+- **Standard Templates**: Common project setups for different methodologies (Scrum, Agile, simple projects)
+- **AI Agent Integration**: Best practices for integrating AI agents into development workflows
+- **Project Setup**: Standardized approaches for initializing new projects with AI assistance
+- **Workflow Descriptions**: Documented processes for agent-assisted development
+- **Role Definitions**: Clear definitions of agent roles and responsibilities
+
+### Usage in Projects
+- Each project can adopt and adapt these templates to their specific needs
+- Provides a baseline for AI-assisted development workflows
+- Can be extended with project-specific customizations
+- Serves as a reference for best practices in agent collaboration
+
+### Key Components
+- **Project Templates**: Pre-configured setups for different project types
+- **Workflow Documentation**: Step-by-step guides for common development tasks
+- **Agent Roles**: Defined responsibilities for different types of AI agents
+- **Integration Patterns**: How to effectively integrate agents into existing workflows
+
+This framework will be continuously enhanced and developed within this workspace to provide better standards and options for AI-assisted project development.
