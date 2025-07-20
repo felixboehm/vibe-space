@@ -15,6 +15,22 @@ This is the **shared workspace** for developing a distributed AI agent orchestra
 - Cross-repository project coordination
 - Concept development and technical planning
 
+## Project Setup Automation
+
+When users request setup, Claude should:
+
+1. **Clone vibe-agents framework** if missing:
+   ```bash
+   git clone https://github.com/cloudhippie/vibe-agents.git
+   ```
+
+2. **Verify structure** exists:
+   ```bash
+   ls -la vibe-agents/agents/ vibe-agents/processes/
+   ```
+
+3. **Inform user** setup is complete with available agent roles and next steps.
+
 ## Agent Roles for This Project
 
 This project uses specialized AI agents working together to develop the platform:
@@ -59,6 +75,7 @@ This project uses specialized AI agents working together to develop the platform
 ### Key Directories
 - **`/concepts/`** - Complete vision and architectural concepts (DO NOT MODIFY - these are foundational)
 - **`/project/`** - Development planning and roadmap management
+- **`/docs/`** - Human-focused documentation (will become website)
 - **`/vibe-agents/`** - Natural language framework (no source code, pure templates)
 
 ### Component Repositories (Future)
