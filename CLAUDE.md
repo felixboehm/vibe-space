@@ -1,195 +1,184 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working on the Distributed AI Agent Orchestration Platform project.
+
+## Project Overview
+
+This is the **shared workspace** for developing a distributed AI agent orchestration platform that enables process-driven AI-human collaboration. This workspace coordinates development across multiple repositories and demonstrates the "eat your own dogfood" principle by using the vibe-agents framework to orchestrate its own development.
 
 ## Repository Purpose
 
-This is a **documentation workspace** for the VibeTunnel Linux deployment project, not the actual VibeTunnel source code. The repository contains:
-- Comprehensive documentation about adapting VibeTunnel from macOS to Linux
-- Deployment guides and server configuration
-- Technical learnings and TODO lists
-- One custom script: `vt-linux` (VibeTunnel CLI wrapper)
+**Shared Workspace Functions**:
+- Central coordination hub for all development activities
+- Knowledge management and institutional memory
+- Process-driven collaboration between AI agents and humans
+- Cross-repository project coordination
+- Concept development and technical planning
 
-## Key Information
+## Agent Roles for This Project
 
-### Server Access
-- **Production Server**: <YOUR_SERVER_IP> (Hetzner Cloud ARM cax21)
-- **SSH**: `ssh root@<YOUR_SERVER_IP>`
-- **Web Interface**: http://<YOUR_SERVER_IP>:4020
-- **Service**: VibeTunnel is deployed as a systemd service
+This project uses specialized AI agents working together to develop the platform:
 
-### Repository Links
-- **This Documentation Workspace**: https://github.com/felixboehm/vibe-space
-- **VibeTunnel Fork (actual code)**: https://github.com/felixboehm/vibetunnel
-- **Original VibeTunnel**: https://github.com/amantus-ai/vibetunnel
+### architect
+**Primary Responsibility**: System design and technical architecture decisions
+**Scope**: Cross-component architecture, technical specifications, integration patterns
+**Authority**: Technical architecture, system design choices, component interfaces
+**Collaboration**: Reviews all technical implementations, guides dev agents, escalates to product for business decisions
+**Process**: Architecture Decision Records (ADRs), system design reviews, technical guidance
 
-### Current Server Status
-- **VibeTunnel Version**: v1.0.0-beta.10
-- **Service Status**: ✅ Active and running with SSH key authentication enabled
-- **Installation Path**: `/opt/vibetunnel/vibetunnel/web/`
-- **Binary**: `vibetunnel-linux-cli` (includes both server and client functionality)
-- **VT Command**: ✅ Installed at `/usr/local/bin/vt`
+### dev  
+**Primary Responsibility**: Implementation across all component repositories
+**Scope**: Code implementation in vibe-orchestrator, vibe-agent-server, vibe-workspace-tools, etc.
+**Authority**: Implementation decisions within approved architecture
+**Collaboration**: Works with architect for design, qa for quality, coordinates across repos
+**Process**: Feature implementation, bug fixes, component development, GitHub PR workflows
 
-## Working with VibeTunnel Code
+### docs
+**Primary Responsibility**: Documentation and knowledge management
+**Scope**: Framework documentation, setup guides, concept refinement, knowledge capture
+**Authority**: Documentation standards, information architecture, knowledge organization  
+**Collaboration**: Works with all agents to capture learnings, maintains shared workspace
+**Process**: Documentation updates, concept evolution, knowledge base maintenance
 
-Since this is a documentation repository, actual VibeTunnel development happens in the fork. To work with VibeTunnel:
+### qa
+**Primary Responsibility**: Testing and quality assurance across all components
+**Scope**: Testing strategies, quality standards, integration testing, system validation
+**Authority**: Quality gates, testing requirements, release approval
+**Collaboration**: Reviews all implementations, defines testing strategies, validates system behavior
+**Process**: Test planning, quality validation, system integration testing
 
-### Building VibeTunnel (on target server)
-```bash
-# Clone the actual repository
-git clone https://github.com/felixboehm/vibetunnel.git
-cd vibetunnel/web
+### product
+**Primary Responsibility**: Roadmap management and feature prioritization
+**Scope**: Project roadmap, feature priorities, stakeholder requirements, business value
+**Authority**: Feature prioritization, roadmap decisions, requirement clarification
+**Collaboration**: Coordinates with all agents, manages project scope, handles escalations
+**Process**: Roadmap planning, feature specification, priority management, stakeholder communication
 
-# Install dependencies and build
-pnpm install  # VibeTunnel uses pnpm as package manager
-pnpm run build
+## Core Project Structure
 
-# Outputs:
-# - dist/vibetunnel-cli (original macOS binary)
-# - dist/vibetunnel-linux (server-only)
-# - dist/vibetunnel-linux-cli (server + client with vt command)
+### Key Directories
+- **`/concepts/`** - Complete vision and architectural concepts (DO NOT MODIFY - these are foundational)
+- **`/project/`** - Development planning and roadmap management
+- **`/vibe-agents/`** - Natural language framework (no source code, pure templates)
+
+### Component Repositories (Future)
+These will be created as development progresses:
+- `vibe-orchestrator` - Central coordination service
+- `vibe-agent-server` - Agent runtime environment
+- `vibe-workspace-tools` - Workspace management utilities
+- `vibe-ui` - Management dashboard (if needed)
+
+## Development Workflow
+
+### Process-Driven Collaboration
+1. **Issue Creation**: All work starts with GitHub issues in this repository
+2. **Agent Assignment**: Issues labeled with agent roles (e.g., `architect`, `dev`)
+3. **Cross-Repo Work**: Agents work across multiple repositories as needed
+4. **Knowledge Capture**: All learnings and decisions captured in this workspace
+5. **Coordination**: Regular check-ins and progress updates through issues/PRs
+
+### Agent Collaboration Patterns
+
+**Sequential Handoffs**:
+```
+product → architect → dev → create PR → qa → PR merge → marketing 
 ```
 
-### Running VibeTunnel
-```bash
-# Development mode
-cd vibetunnel/web
-pnpm run dev        # Full development mode (client + server)
-pnpm run dev:linux  # Linux server development mode
-
-# Production (as service)
-sudo systemctl start vibetunnel
-sudo systemctl status vibetunnel
-sudo journalctl -u vibetunnel -f
-
-# Manual execution
-cd /opt/vibetunnel/vibetunnel/web
-VIBETUNNEL_DEBUG=1 node dist/vibetunnel-linux-cli --enable-ssh-keys
+**Consultative Reviews**:
+```
+dev ←→ architect (ongoing consultation)
+qa ←→ all agents (quality feedback)
 ```
 
-## Architecture Overview
+## Framework Application
 
-### VibeTunnel Components
-1. **Web Server** (Node.js/Express) - Handles HTTP/WebSocket connections
-2. **Terminal Management** (node-pty) - Creates and manages PTY sessions
-3. **Authentication** (PAM) - System user authentication
-4. **Web Frontend** (Lit/xterm.js) - Browser-based terminal interface
-5. **VT Command** - CLI tool for creating monitored terminal sessions
+This project uses the **vibe-agents framework** to coordinate its own development:
 
-### Technology Stack
-- **Language**: TypeScript
-- **Runtime**: Node.js v20+ (currently v20.19.3)
-- **Package Manager**: pnpm
-- **Frontend**: Lit Web Components + xterm.js
-- **Build Tool**: esbuild
-- **Testing**: Vitest (unit) + Playwright (e2e)
-- **CSS**: Tailwind CSS
-- **Real-time**: WebSocket + Server-Sent Events
+### Framework Usage
+- **Role Definitions**: Agents follow templates from `/vibe-agents/agents/`
+- **Process Templates**: Use workflows from `/vibe-agents/processes/`
+- **Best Practices**: Apply patterns from `/vibe-agents/workflows/`
+- **Setup Patterns**: Follow guides from `/vibe-agents/setup/`
 
-### Key Technical Details
-- **Native Modules**: Requires `node-pty` and `authenticate-pam` (compiled for ARM64)
-- **Authentication Precedence**: Environment vars override PAM (limits to single user)
-- **Socket Communication**: Uses Unix domain sockets at `~/.vibetunnel/control.sock`
-- **Session Management**: Each user has isolated sessions and socket paths
-- **Process Model**: Main server process spawns child processes for each terminal session
-- **Binary Optimization**: Uses buffer-based updates for terminal output efficiency
+### Self-Improvement Loop
+- **Use Framework**: Apply vibe-agents framework to coordinate development
+- **Capture Learnings**: Document what works and what doesn't
+- **Improve Framework**: Update templates based on real-world usage
+- **Validate Changes**: Test improvements through actual development work
 
-## Documentation Structure
+## Technical Guidelines
 
-This repository contains these key documents:
-- `PROJECT_SUMMARY.md` - Complete overview of the Linux deployment
-- `LINUX_SERVER.md` - Installation and usage guide
-- `SERVER_SETUP_DOCUMENTATION.md` - Server configuration details
-- `VIBETUNNEL_TODO_LIST.md` - Current issues and improvements needed
-- `LINUX_BUILD_LEARNINGS.md` - Technical insights and architecture details
-- `vt-linux` - Custom bash script implementing the vt command for Linux
+### Repository Management
+- **Primary Coordination**: All coordination happens through this workspace
+- **Component Development**: Code lives in dedicated component repositories
+- **Knowledge Management**: All shared knowledge captured here
+- **Process Evolution**: Continuous improvement of collaboration processes
 
-## Common Tasks
+### Documentation Standards
+- **Concept Preservation**: Never modify core concept documents without explicit approval
+- **Knowledge Capture**: Document all decisions, learnings, and patterns
+- **Cross-Reference**: Link between workspace docs and component implementations
+- **Version Control**: Track evolution of processes and knowledge
 
-### Updating Documentation
-When updating documentation in this repository:
-1. Ensure consistency across all markdown files
-2. Update README.md if adding new documentation files
-3. Keep server information current (IP, status, configuration)
+### Quality Standards
+- **Process Adherence**: Follow defined workflows consistently
+- **Cross-Agent Communication**: Clear handoffs and collaboration
+- **Knowledge Sharing**: Transparent capture of all insights
+- **Continuous Improvement**: Regular retrospectives and process refinement
 
-### Working with the vt-linux Script
-The `vt-linux` script is a bash wrapper that:
-- Forwards commands through VibeTunnel for web visibility
-- Handles shell-specific nuances (bash vs zsh)
-- Manages terminal titles
-- Should be installed to `/usr/local/bin/vt` on the server
+## Current Development Focus
 
-### Checking Server Status
-```bash
-# SSH to server
-ssh root@<YOUR_SERVER_IP>
+### Phase 1: Foundation (Current)
+- Transform vibe-agents into natural language framework
+- Clean up workspace organization
+- Establish clear agent roles and processes
+- Plan component repository structure
 
-# Check VibeTunnel service
-sudo systemctl status vibetunnel
+### Phase 2: Core Implementation (Next)
+- Create component repositories
+- Implement basic orchestrator
+- Build agent server framework
+- Establish GitHub integration
 
-# View logs
-sudo journalctl -u vibetunnel -n 50
+### Phase 3: Self-Orchestration (Future)
+- Deploy agents to coordinate development
+- Full process-driven collaboration
+- Cross-repository coordination
+- Framework validation through usage
 
-# Check web interface
-curl -I localhost:4020
-```
+## Key Resources
 
-## Current Issues (from TODO list)
+### Foundational Documents
+- [Main Project Concept](/concepts/2025-07-20%20Distributed%20AI%20Agent%20Orchestration%20Platform/01-Main-Project-Concept.md)
+- [Agent Framework Concept](/concepts/2025-07-20%20Distributed%20AI%20Agent%20Orchestration%20Platform/02-Agent-Framework-Concept.md)
+- [Implementation Roadmap](/project/implementation_roadmap.md)
 
-1. **Authentication**: ✅ RESOLVED - Required adding vibetunnel user to shadow group
-2. **VT Command**: ✅ RESOLVED - Installed and working at `/usr/local/bin/vt`
-3. **Service Stability**: ✅ RESOLVED - Service is running stably with auto-restart
-4. **No SSL/HTTPS**: Production deployment needs SSL configuration
-5. **SSH Key Auth**: ✅ RESOLVED - Enabled via `--enable-ssh-keys` flag
-6. **Session Closing**: Under investigation - may be related to SSE connection limits
+### Framework Resources
+- [Vibe-Agents Framework](/vibe-agents/) - Natural language templates and patterns
+- [Agent Philosophy](/vibe-agents/docs/AGENT_PHILOSOPHY.md) - Core principles
 
-## Critical Learnings
+### Development Planning
+- [Development Concept](/project/development%20concept.md)
+- [Project Summary](/PROJECT_SUMMARY.md)
 
-### Multi-User Authentication Fix
-VibeTunnel uses PAM authentication which requires the service user to read `/etc/shadow`. The fix:
-```bash
-sudo usermod -a -G shadow vibetunnel
-sudo systemctl restart vibetunnel
-```
-This is now included in the installation script.
+## Agent Coordination Protocols
 
-## Environment Variables
+### Issue Management
+- **Labeling**: Use role-based labels (`architect`, `dev`, etc.)
+- **Assignment**: Agents self-assign appropriate issues
+- **Progress**: Regular updates on issue progress
+- **Handoffs**: Clear communication when passing work between agents
 
-Key environment variables for VibeTunnel:
-- `PORT` - Server port (default: 4020)
-- `HOST` - Bind address (default: 0.0.0.0)
-- `VIBETUNNEL_DEBUG` - Enable debug logging
-- `VIBETUNNEL_USERNAME`/`VIBETUNNEL_PASSWORD` - Override PAM auth (single user only) - DO NOT SET for multi-user
-- `NO_AUTH` - Disable authentication (development only)
-- `NODE_ENV` - Set to 'production' for production deployments
+### Knowledge Management
+- **Decision Records**: Document all significant decisions
+- **Learning Capture**: Record insights and patterns discovered
+- **Process Evolution**: Update workflows based on experience
+- **Cross-Reference**: Link workspace knowledge to component implementations
 
-## Development Scripts
+### Quality Assurance
+- **Review Processes**: All work reviewed by appropriate agents
+- **Standards Compliance**: Adherence to defined quality standards
+- **Integration Testing**: Validation across all components
+- **Continuous Feedback**: Regular process improvement cycles
 
-Common pnpm scripts in the VibeTunnel codebase:
-- `pnpm run dev` - Start development server with hot reload
-- `pnpm run build` - Create production build
-- `pnpm run lint` - Run linting with Biome
-- `pnpm run format` - Format code with Biome
-- `pnpm run test` - Run unit tests with Vitest
-- `pnpm run test:e2e` - Run end-to-end tests with Playwright
-- `pnpm run clean` - Clean build artifacts
-
-## VibeTunnel Directory Structure
-
-```
-vibetunnel/web/
-├── src/
-│   ├── cli.ts              # Main CLI entry point
-│   ├── linux-server.ts     # Linux-specific server
-│   ├── server/             # Backend code
-│   │   ├── routes/         # API endpoints
-│   │   ├── services/       # Core services
-│   │   └── websocket/      # WebSocket handlers
-│   ├── client/             # Frontend code
-│   │   ├── components/     # Lit components
-│   │   └── services/       # Client services
-│   └── shared/             # Shared utilities
-├── scripts/                # Build scripts
-├── test/                   # Test files
-└── dist/                   # Built binaries
-```
+Remember: This workspace coordinates the development of a system that will revolutionize how AI agents and humans collaborate. Every decision and implementation should advance this vision while demonstrating the principles we're building into the platform.
