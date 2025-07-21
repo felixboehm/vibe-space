@@ -125,6 +125,23 @@ This project uses the **vibe-agents framework** to coordinate its own developmen
 - **Best Practices**: Apply patterns from `/vibe-agents/workflows/`
 - **Setup Patterns**: Follow guides from `/vibe-agents/setup/`
 
+### Operational Scripts
+The vibe-agents framework includes operational scripts for managing agents:
+
+**Setup Scripts** (`/vibe-agents/setup/`):
+- `agent-server-hetzner.sh` - Spawn and configure new Hetzner Cloud servers
+- `configure-agent-server.sh` - Install Claude Code on existing servers
+
+**Agent Execution Scripts** (`/vibe-agents/agents/`):
+- `run-agent-advanced.sh` - Local agent execution with workspace and name options
+- `run-remote-agent.sh` - Synchronous remote agent execution
+- `run-remote-agent-async.sh` - Asynchronous remote agent execution
+
+Use these scripts when users need to:
+- Set up new agent servers
+- Run agents locally or remotely
+- Execute long-running tasks asynchronously
+
 ### Self-Improvement Loop
 - **Use Framework**: Apply vibe-agents framework to coordinate development
 - **Capture Learnings**: Document what works and what doesn't
