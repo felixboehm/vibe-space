@@ -35,12 +35,6 @@ When users request setup, Claude should:
 
 This project uses specialized AI agents working together to develop the platform:
 
-### architect
-**Primary Responsibility**: System design and technical architecture decisions
-**Scope**: Cross-component architecture, technical specifications, integration patterns
-**Authority**: Technical architecture, system design choices, component interfaces
-**Collaboration**: Reviews all technical implementations, guides dev agents, escalates to product for business decisions
-**Process**: Architecture Decision Records (ADRs), system design reviews, technical guidance
 
 ### dev  
 **Primary Responsibility**: Implementation across all component repositories
@@ -69,6 +63,20 @@ This project uses specialized AI agents working together to develop the platform
 **Authority**: Feature prioritization, roadmap decisions, requirement clarification
 **Collaboration**: Coordinates with all agents, manages project scope, handles escalations
 **Process**: Roadmap planning, feature specification, priority management, stakeholder communication
+
+### marketing
+**Primary Responsibility**: Brand management, content creation, and community engagement
+**Scope**: Framework adoption, developer relations, content strategy, user advocacy
+**Authority**: Marketing strategy, brand messaging, community initiatives
+**Collaboration**: Works with all agents to communicate value, builds adoption through content
+**Process**: Content creation, community building, adoption campaigns, developer relations
+
+### review
+**Primary Responsibility**: Code review, quality standards, and technical mentorship
+**Scope**: Code quality gates, review processes, standards enforcement, knowledge sharing
+**Authority**: Code approval, quality standards, review process definition
+**Collaboration**: Reviews all code changes, mentors developers, ensures quality consistency
+**Process**: Pull request review, quality gate management, standards documentation, mentorship
 
 ## Core Project Structure
 
@@ -117,6 +125,23 @@ This project uses the **vibe-agents framework** to coordinate its own developmen
 - **Best Practices**: Apply patterns from `/vibe-agents/workflows/`
 - **Setup Patterns**: Follow guides from `/vibe-agents/setup/`
 
+### Operational Scripts
+The vibe-agents framework includes operational scripts for managing agents:
+
+**Setup Scripts** (`/vibe-agents/setup/`):
+- `agent-server-hetzner.sh` - Spawn and configure new Hetzner Cloud servers
+- `configure-agent-server.sh` - Install Claude Code on existing servers
+
+**Agent Execution Scripts** (`/vibe-agents/agents/`):
+- `run-agent-advanced.sh` - Local agent execution with workspace and name options
+- `run-remote-agent.sh` - Synchronous remote agent execution
+- `run-remote-agent-async.sh` - Asynchronous remote agent execution
+
+Use these scripts when users need to:
+- Set up new agent servers
+- Run agents locally or remotely
+- Execute long-running tasks asynchronously
+
 ### Self-Improvement Loop
 - **Use Framework**: Apply vibe-agents framework to coordinate development
 - **Capture Learnings**: Document what works and what doesn't
@@ -142,6 +167,9 @@ This project uses the **vibe-agents framework** to coordinate its own developmen
 - **Cross-Agent Communication**: Clear handoffs and collaboration
 - **Knowledge Sharing**: Transparent capture of all insights
 - **Continuous Improvement**: Regular retrospectives and process refinement
+
+## Commit and PR Guidelines
+- For PRs and Commits always use sematic pr spec
 
 ## Current Development Focus
 

@@ -9,3 +9,6 @@ vibe-agents/
 # Test credentials - DO NOT COMMIT
 test-credentials.txt
 .test-credentials
+
+# Environment files - DO NOT COMMIT
+.env
