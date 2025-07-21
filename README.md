@@ -40,9 +40,12 @@ This project uses the **vibe-agents framework** to coordinate its own developmen
 git clone https://github.com/felixboehm/vibe-space.git
 cd vibe-space
 claude
+```
 
-# Request automated setup
-"Setup this project from scratch, including cloning the vibe-agents framework"
+Request automated setup:
+
+```
+Setup this project"
 ```
 
 **→ [Complete Getting Started Guide](docs/getting-started.md)**
