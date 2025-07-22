@@ -70,7 +70,7 @@ When an agent claims a task, it must atomically:
 1. Assign itself to the issue
 2. Update the project board status to "In Progress"
 3. Remove any "ready" indicators
-4. Add an "in-progress" label if using label-based tracking
+4. Add an "in-progress" project status
 
 **Implementation Plan Communication:**
 
