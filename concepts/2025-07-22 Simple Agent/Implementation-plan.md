@@ -537,19 +537,31 @@ I'm unable to proceed with this issue due to:
 
 ## Phase 7: Deployment and Operations
 
-### 7.1 Production Deployment
-- Deploy to production agent server
-- Configure production credentials
-- Set up monitoring and alerts
-- Enable cron job
-- Document runbooks
+### 7.1 Script-Based Deployment
+**Available Scripts in vibe-agents/agents/**:
+- `setup-simple-agent.sh` - One-time setup on agent server
+- `agent-control.sh` - Enable/disable agent cron jobs
+- `monitor-agent.sh` - Monitor agent status and logs
+- `run-remote-agent.sh` - Existing remote execution script
+
+**Deployment Process**:
+1. Run setup: `./setup-simple-agent.sh 91.99.172.64`
+2. Test manually: SSH and run `/work/dev/run.sh`
+3. Monitor: `./monitor-agent.sh 91.99.172.64 dev`
+4. Enable cron: `./agent-control.sh enable dev`
 
 ### 7.2 Operational Procedures
-- Log rotation and retention
-- Credential rotation schedule
-- Performance monitoring
-- Incident response procedures
-- Upgrade procedures
+**Monitoring Commands**:
+- View all agents: `./monitor-agent.sh 91.99.172.64`
+- Check specific agent: `./monitor-agent.sh 91.99.172.64 dev`
+- Enable agent: `./agent-control.sh enable dev`
+- Disable agent: `./agent-control.sh disable dev`
+- Check status: `./agent-control.sh status dev`
+
+**Log Management**:
+- Logs stored in `/work/dev/agents.log`
+- Workspace-specific logs in issue directories
+- Monitor with: `tail -f /work/dev/agents.log`
 
 ## Success Criteria
 
