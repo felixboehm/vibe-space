@@ -92,30 +92,58 @@ When PR approved and merged:
 
 ## Definition Structures
 
-### Definition of Ready Example
-```yaml
-ready_when:
-  all_of:
-    - issue: "#123 is closed"  
-    - issue: "#124 is closed"
-    - label: "approved"
-    - file_exists: "api/spec/v2.yaml"
-    - check: "CI is green on main"
-```
+### Definition of Ready
+A task is ready when all of the following conditions are met:
 
-### Definition of Done Example
-```yaml
-done_when:
-  all_of:
-    - code: "feature implemented"
-    - tests: "unit tests added"
-    - tests: "all tests passing"
-    - docs: "README updated"
-    - docs: "API docs updated"
-    - pr: "created and linked"
-    - pr: "description includes demo"
-    - review: "approved by 1 reviewers"
-```
+**Dependencies**
+- All prerequisite issues (e.g., #123, #124) are closed
+- Required approvals are in place (indicated by "approved" label)
+
+**Resources** 
+- All necessary files and specifications are available (e.g., api/spec/v2.yaml exists)
+- External systems and data sources are accessible
+- Required tools and services are operational
+
+**Environment**
+- CI/CD pipeline is green on the main branch
+- Test environments are available and configured
+- No blocking infrastructure issues
+
+**Clarity**
+- Task requirements are clear and unambiguous
+- Acceptance criteria are well-defined
+- Technical approach is understood or discoverable
+
+### Definition of Done
+A task is complete when all of the following are satisfied:
+
+**Implementation**
+- Feature is fully implemented according to requirements
+- Code follows project standards and conventions
+- All edge cases and error scenarios are handled
+
+**Testing**
+- Unit tests are written with appropriate coverage
+- All tests (unit, integration, e2e) are passing
+- Security and performance implications are validated
+
+**Documentation**
+- README is updated with new features or changes
+- API documentation reflects any interface changes
+- Inline code documentation explains complex logic
+- Changelog or release notes are updated
+
+**Review Process**
+- Pull request is created with clear description
+- PR links to original issue using auto-close syntax (Fixes #123)
+- Implementation approach is documented in PR description
+- At least one reviewer has approved the changes
+- All review feedback has been addressed
+
+**Demonstration**
+- Working demo or screenshots are provided where applicable
+- Acceptance criteria can be verified in the PR
+- Any deployment or configuration steps are documented
 
 ## Blocked Task Reporting
 
