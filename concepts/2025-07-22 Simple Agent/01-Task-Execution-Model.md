@@ -36,8 +36,9 @@ This concept defines a straightforward model for autonomous dev agents working w
 
 ### 1. Task Discovery (Cron Triggered)
 ```
-Every N minutes:
-- Query GitHub for open, unassigned issues
+Every 1 minute:
+- Query Github open PRs for reviews, failing tests, comments, conflicts. Improve the PR. 
+- Otherwise Query GitHub for open, unassigned issues
 - Filter by "ready" label or evaluate readiness
 - Sort by priority/age/dependencies
 - Select highest priority ready task
@@ -56,12 +57,14 @@ For each candidate task:
 ### 3. Task Execution
 ```
 When task is ready:
-- Claim issue (assign self, add label)
+- Claim issue (assign self, set issue status to doing)
+- Add an implementation plan as comment in the issue
 - Create feature branch
-- Implement requirements
+- Implement requirements and unit tests
 - Run tests and validations
 - Update documentation
-- Commit with issue references
+- Create a PR with issue references to autoclose issue on merge
+- Add implementation description as context to the PR
 ```
 
 ### 4. Review Submission
@@ -70,7 +73,7 @@ When implementation complete:
 - Push branch to GitHub
 - Create PR with:
   - Summary of changes
-  - Link to issue
+  - Link to issue, using auto-close (Fixes #53)
   - Test results
   - Demo/screenshots if applicable
 - Request reviews per repository rules
@@ -111,7 +114,7 @@ done_when:
     - docs: "API docs updated"
     - pr: "created and linked"
     - pr: "description includes demo"
-    - review: "approved by 2 reviewers"
+    - review: "approved by 1 reviewers"
 ```
 
 ## Blocked Task Reporting
