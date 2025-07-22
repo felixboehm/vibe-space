@@ -27,10 +27,11 @@ This concept defines a straightforward model for autonomous dev agents working w
 - **Approval Gates**: Required reviews before merge
 
 ### Data Stores
-- **Primary**: Git repository (code, configs, docs)
+- **Workspace Repository**: Issue-specific workspace with CLAUDE.md, README, and docs
+- **Project Repository**: Actual code repository cloned into workspace
 - **Secondary**: External APIs, databases as needed
 - **Artifacts**: Build outputs, test reports
-- **Knowledge**: README, wikis, past issues
+- **Knowledge**: Workspace documentation, past issues
 
 ## Agent Workflow
 
@@ -58,12 +59,16 @@ For each candidate task:
 ```
 When task is ready:
 - Claim issue (assign self, set issue status to doing)
-- Add an implementation plan as comment in the issue
-- Create feature branch
+- Clone workspace repository as issue-{number}
+- Set up workspace CLAUDE.md with issue context
+- Clone project repository into workspace/project/
+- Add implementation plan as comment in the issue
+- Create feature branch in project repository
 - Implement requirements and unit tests
 - Run tests and validations
-- Update documentation
-- Create a PR with issue references to autoclose issue on merge
+- Update project documentation
+- Update workspace README with implementation notes
+- Create PR with issue references to autoclose issue on merge
 - Add implementation description as context to the PR
 ```
 

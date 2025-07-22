@@ -66,10 +66,19 @@ Create the following directory structure:
 ```
 /work/dev/
 ├── CLAUDE.md                    # Dev agent behavioral instructions
-├── issue-123/                   # Issue-specific workspace
-│   ├── project-repo/           # Cloned repository
-│   ├── logs/                   # Agent execution logs
-│   └── .metadata.json          # Issue state and context
+├── issue-123/                   # Issue workspace repository
+│   ├── .git/                   # Git repository for workspace
+│   ├── CLAUDE.md               # Project-specific instructions for this issue
+│   ├── README.md               # Issue documentation and context
+│   ├── docs/                   # Additional documentation
+│   ├── concepts/               # Design concepts if needed
+│   ├── project/                # Cloned project repository
+│   │   ├── .git/              # Project git repository
+│   │   ├── src/               # Project source code
+│   │   └── ...                # Project files
+│   └── .agent/                 # Agent-specific data
+│       ├── metadata.json       # Issue state and context
+│       └── logs/              # Agent execution logs
 ├── issue-456/                   # Another issue workspace
 └── _archive/                    # Closed issues (auto-cleaned)
 ```
@@ -83,17 +92,25 @@ You are a development agent responsible for implementing GitHub issues autonomou
 
 ## Core Behaviors
 1. Work on one issue at a time to completion
-2. Create dedicated workspace for each issue: /work/dev/issue-{number}/
-3. Maintain workspace until issue is closed
-4. Clean up workspaces for closed issues daily
+2. Create dedicated workspace repository for each issue: /work/dev/issue-{number}/
+3. Each workspace contains:
+   - CLAUDE.md with issue-specific instructions
+   - README.md with implementation notes
+   - project/ subdirectory with actual code
+   - .agent/ for metadata and logs
+4. Maintain workspace until issue is closed
+5. Clean up workspaces for closed issues daily
 
 ## Workflow
 1. Check for PR improvements first (failing tests, review comments)
 2. Find highest priority ready issue if no PR work
-3. Create issue workspace and clone repository
-4. Implement according to issue requirements
-5. Create PR with auto-close reference
-6. Monitor PR until merged
+3. Clone workspace repository as issue-{number}
+4. Set up workspace CLAUDE.md with issue context
+5. Clone project repository into project/ subdirectory
+6. Implement according to issue requirements
+7. Create PR with auto-close reference
+8. Update workspace docs with implementation notes
+9. Monitor PR until merged
 
 ## Quality Standards
 - Write comprehensive tests for all new code
@@ -106,6 +123,7 @@ You are a development agent responsible for implementing GitHub issues autonomou
 - Update issue with progress every significant milestone
 - Escalate blockers immediately with clear explanation
 - Document decisions in PR description
+- Keep workspace README updated with progress
 ```
 
 ### 1.3 Cron Job Configuration
@@ -215,20 +233,44 @@ echo "Agent setup validation complete"
 ## Phase 3: Agent Behavior Implementation
 
 ### 3.1 Workspace Management Strategy
-Each issue gets its own isolated workspace:
+Each issue gets its own isolated workspace repository:
 ```bash
 # When starting work on issue #123
-mkdir -p /work/dev/issue-123/logs
-cd /work/dev/issue-123
-git clone <repository-url> project-repo
-cd project-repo
+cd /work/dev
+git clone <workspace-repository-url> issue-123
+cd issue-123
+
+# Create project-specific CLAUDE.md with issue context
+cat > CLAUDE.md << 'EOF'
+# Issue #123 Development Instructions
+
+## Context
+Working on issue #123: [Issue title and description]
+
+## Project Setup
+The actual project code is in the `project/` subdirectory.
+
+## Requirements
+[Specific requirements for this issue]
+
+## Implementation Notes
+[Any specific guidance for this issue]
+EOF
+
+# Clone the actual project repository
+git clone <project-repository-url> project
+cd project
+
+# Create agent-specific directory in workspace root
+mkdir -p ../.agent/logs
 
 # Save issue metadata
-cat > ../.metadata.json << EOF
+cat > ../.agent/metadata.json << EOF
 {
   "issue_number": 123,
   "started_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
-  "repository": "<repo-name>",
+  "workspace_repo": "<workspace-repo-name>",
+  "project_repo": "<project-repo-name>",
   "branch": "feature/issue-123"
 }
 EOF
@@ -256,7 +298,7 @@ Parse natural language definition of ready:
 When claiming issue #123:
 ```bash
 # Navigate to issue workspace
-cd /work/dev/issue-123/project-repo
+cd /work/dev/issue-123
 
 # Assign issue and update labels
 gh issue edit 123 --add-assignee "@me"
@@ -277,9 +319,9 @@ Estimated completion: 2-4 hours"
 ```
 
 ### 3.5 Work Execution Flow
-Execute within issue workspace:
+Execute within the project subdirectory:
 ```bash
-cd /work/dev/issue-123/project-repo
+cd /work/dev/issue-123/project
 
 # Create feature branch
 git checkout -b feature/issue-123
@@ -289,6 +331,7 @@ git checkout -b feature/issue-123
 
 # Implement changes
 # - Follow requirements from issue
+# - Follow guidance from workspace CLAUDE.md
 # - Write tests alongside code
 # - Update docs as needed
 
@@ -305,11 +348,22 @@ git commit -m "feat: implement feature for issue #123
 - Update API documentation
 
 Refs #123"
+
+# Also update workspace documentation if needed
+cd ..
+echo "## Implementation Summary" >> README.md
+echo "- Implemented feature X" >> README.md
+echo "- Added tests for Y" >> README.md
+git add README.md
+git commit -m "docs: update implementation notes for issue #123"
 ```
 
 ### 3.6 Pull Request Creation
-Create PR with full context:
+Create PR from the project directory:
 ```bash
+# In project directory
+cd /work/dev/issue-123/project
+
 # Push to GitHub
 git push -u origin feature/issue-123
 
@@ -335,12 +389,19 @@ Implementation of features requested in #123.
 ## Testing
 Describe how to test the changes.
 
+## Workspace
+Additional context and documentation available in workspace repository: [link to workspace repo]
+
 ## Screenshots
 [If applicable]
 
 Fixes #123" \
   --assignee "@me" \
   --label "needs-review"
+
+# Push workspace updates
+cd ..
+git push origin main
 ```
 
 ## Phase 4: Monitoring and Reporting
@@ -400,7 +461,7 @@ find /work/dev/_archive/ -maxdepth 1 -type d -mtime +30 -exec rm -rf {} \;
 
 ### 5.2 State Persistence
 **Metadata Tracking**
-Each workspace contains `.metadata.json`:
+Each workspace contains `.agent/metadata.json`:
 ```json
 {
   "issue_number": 123,
@@ -424,7 +485,7 @@ Agent can resume work by:
 **Workspace-Specific Logging**
 All operations logged to workspace:
 ```bash
-LOG_FILE="/work/dev/issue-123/logs/$(date +%Y%m%d).log"
+LOG_FILE="/work/dev/issue-123/.agent/logs/$(date +%Y%m%d).log"
 echo "[$(date)] Starting implementation" >> "$LOG_FILE"
 ```
 
@@ -448,7 +509,7 @@ I'm unable to proceed with this issue due to:
 - Workspace: `/work/dev/issue-123/`
 - Branch: `feature/issue-123` 
 - Last action: Running tests
-- Error details in: `logs/20240115.log`
+- Error details in: `.agent/logs/20240115.log`
 
 **Suggested Resolution:**
 1. Review the merge conflict in the PR
